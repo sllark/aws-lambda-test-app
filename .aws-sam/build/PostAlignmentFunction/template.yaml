@@ -1,0 +1,120 @@
+AWSTemplateFormatVersion: 2010-09-09
+Description: >-
+  sam-app
+Transform:
+- AWS::Serverless-2016-10-31
+
+# Resources declares the AWS resources that you want to include in the stack
+# https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/resources-section-structure.html
+
+Resources:
+  PostAlignmentFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: src/handlers/postAlignment.handler
+      CodeUri: .
+      Description: Lambda function to create a new alignment session
+      Policies:
+        - DynamoDBCrudPolicy:
+            TableName: alignments_table
+      Events:
+        PostAlignmentAPI:
+          Type: Api
+          Properties:
+            Path: /alignments
+            Method: POST
+
+  GetAlignmentsFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: src/handlers/getAlignments.handler
+      CodeUri: .
+      Description: Lambda function to retrieve alignment sessions
+      Policies:
+        - DynamoDBReadPolicy:
+            TableName: alignments_table
+      Events:
+        GetAlignmentsAPI:
+          Type: Api
+          Properties:
+            Path: /alignments
+            Method: GET
+
+  # DynamoDB Tables
+  AlignmentsTable:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      TableName: alignments_table
+      AttributeDefinitions:
+        - AttributeName: alignmentId
+          AttributeType: S
+      KeySchema:
+        - AttributeName: alignmentId
+          KeyType: HASH
+      BillingMode: PAY_PER_REQUEST
+
+  StepsTable:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      TableName: steps_table
+      AttributeDefinitions:
+        - AttributeName: stepId
+          AttributeType: S
+      KeySchema:
+        - AttributeName: stepId
+          KeyType: HASH
+      BillingMode: PAY_PER_REQUEST
+
+  TelemetryTable:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      TableName: telemetry_table
+      AttributeDefinitions:
+        - AttributeName: telemetryId
+          AttributeType: S
+      KeySchema:
+        - AttributeName: telemetryId
+          KeyType: HASH
+      BillingMode: PAY_PER_REQUEST
+
+  UsersTable:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      TableName: users_table
+      AttributeDefinitions:
+        - AttributeName: userId
+          AttributeType: S
+      KeySchema:
+        - AttributeName: userId
+          KeyType: HASH
+      BillingMode: PAY_PER_REQUEST
+
+  VehiclesTable:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      TableName: vehicles_table
+      AttributeDefinitions:
+        - AttributeName: vehicleId
+          AttributeType: S
+      KeySchema:
+        - AttributeName: vehicleId
+          KeyType: HASH
+      BillingMode: PAY_PER_REQUEST
+
+Outputs:
+  PostAlignmentApiEndpoint:
+    Description: API Gateway endpoint URL for POST /alignments
+    Value: !Sub "https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/alignments"
+
+  GetAlignmentsApiEndpoint:
+    Description: API Gateway endpoint URL for GET /alignments
+    Value: !Sub "https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/alignments"
+
+
+Globals:
+  Function:
+    Timeout: 5
+    MemorySize: 128
+    Runtime: nodejs22.x # Default runtime for all functions
+    LoggingConfig:
+      LogFormat: JSON
