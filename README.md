@@ -1,3 +1,4 @@
+
 # AWS Lambda Alignments API
 
 This project implements an AWS Lambda-based API for managing alignment sessions. It provides the following endpoints:
@@ -5,7 +6,7 @@ This project implements an AWS Lambda-based API for managing alignment sessions.
 1. **POST `/alignments`**: Creates a new alignment session.
 2. **GET `/alignments`**: Retrieves all alignment sessions or filters them by `technicianId`.
 
----
+---  
 
 ## Features
 
@@ -14,7 +15,7 @@ This project implements an AWS Lambda-based API for managing alignment sessions.
 - Automated deployment using AWS SAM (Serverless Application Model).
 - Unit tests with Jest and aws-sdk-client-mock to ensure code reliability.
 
----
+---  
 
 ## Table of Contents
 
@@ -24,7 +25,7 @@ This project implements an AWS Lambda-based API for managing alignment sessions.
 - [AWS Resources](#aws-resources)
 - [Summary of Implementation](#summary-of-implementation)
 
----
+---  
 
 ## Instructions to Run Locally
 
@@ -37,71 +38,59 @@ You can run the Lambda functions locally using the **AWS SAM CLI**.
 
 ### Steps
 
-1. **Install Dependencies**  
+1. **Install Dependencies**    
    Run the following command to install required packages:
-   ```bash
-   npm install
-   ```
-
+   ```bash  
+	  npm install 
+	  ```  
 2. **Build the SAM Application**
 
    Use the SAM CLI to build the application:
-   ```bash
-      sam build
-      ```
+   ```bash  
+    sam build  
+	 ```  
+3.  **Start the API Locally**  
+    Start the API Gateway simulation locally:
+    ```bash  
+       sam local start-api  
+	 ```  
 
-3.	**Start the API Locally**
-   
-   Start the API Gateway simulation locally:
-      ```bash
-      sam local start-api
-   ```
+4.  **Test Locally**  
+    Use the following examples to test the API endpoints:
 
-
-4.	**Test Locally**
-
-      Use the following examples to test the API endpoints:
- 
 - POST /alignments:
-   
-   ```bash
-   curl --request POST \
-   --url http://127.0.0.1:3000/alignments \
-   --header 'Content-Type: application/json' \
-   --data '{
-   "alignmentId": "align001",
-   "vehicleVin": "1HGCM82633A123456",
-   "technicianId": "tech001",
-   "startTime": "2025-01-01T10:00:00Z",
-   "status": "in-progress"
-   }'
-   ```
+
+    ``` bash  
+        curl --request POST \  
+       --url http://127.0.0.1:3000/alignments \ --header 'Content-Type: application/json' \ --data '{ "alignmentId": "align001", "vehicleVin": "1HGCM82633A123456", "technicianId": "tech001", "startTime": "2025-01-01T10:00:00Z", "status": "in-progress" }' 
+  ```
+
+
 - GET /alignments:
 
    ```bash
-   curl --request GET \
-   --url http://127.0.0.1:3000/alignments?technicianId=tech001
-   ```
+  curl --request GET \  
+     --url http://127.0.0.1:3000/alignments?technicianId=tech001
+  ```
 
 ## Instructions to Deploy
 
 Deploy the API to AWS using AWS SAM.
 
 ### Steps
-1.	**Deploy**
-Run the following command to deploy the API:
-      ```bash
-        sam deploy --guided
-      ```
-      During deployment:
-         - Provide a stack name (e.g., alignments-api).
-         - Specify an AWS region.
-         - Approve resource creation when prompted.
+1. **Deploy**
 
- 
-2.	**Note the API Gateway URL**
+Run the following command to deploy the API:  
+```bash  
+sam deploy --guided  
+```
 
-      After deployment, SAM will output the API Gateway endpoint. Use this URL to test the deployed API.
+2. **During deployment:**
+- Provide a stack name (e.g., alignments-api).
+- Specify an AWS region.
+- Approve resource creation when prompted.
+
+3. **Note the API Gateway URL:** After deployment, SAM will output the API Gateway endpoint. Use this URL to test the deployed API.
 
 ## Instructions to Run Tests
 
@@ -110,26 +99,23 @@ Unit tests are provided for both Lambda functions. These tests validate the foll
 - Edge Cases: Missing fields, invalid inputs, and DynamoDB errors.
 
 ### Steps to Run Tests
-1.	**Install Dependencies**
+1.  **Install Dependencies**
 
-      Run the following command to install required packages:
+Run the following command to install required packages:   
+``` bash  
+npm install  
+```
 
-      ```bash
-         npm install
-      ```
+2.  **Run Tests**  
+    Use Jest to execute the test cases:
 
+   ```bash  
+    npm run test  
+ ```  
 
-2.	**Run Tests**
+3.  **Expected Output**
 
-      Use Jest to execute the test cases:
-
-      ```bash
-         npm run test
-      ```
-
-3.	**Expected Output**
-
-      All tests should pass, and Jest will display the results.
+All tests should pass, and Jest will display the results.
 
 ## AWS Resources
 
@@ -144,10 +130,10 @@ Unit tests are provided for both Lambda functions. These tests validate the foll
 
 ### API Gateway
 
-| Method | Path | Linked Lambda |
-|---	|---	|---	|
-|   POST	| /alignments  	|   postAlignment	|
-|   GET	|  /alignments 	|   getAlignments	|
+| Method | Path | Linked Lambda |  
+|---    |---   |---   |  
+|   POST    | /alignments      |   postAlignment  |  
+|   GET |  /alignments     |   getAlignments  |  
 
 
 #### IAM Policies
