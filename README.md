@@ -33,8 +33,28 @@ You can run the Lambda functions locally using the **AWS SAM CLI**.
 
 ### Prerequisites
 
-- Node.js and npm installed.
-- AWS SAM CLI installed ([Installation Guide](https://docs.aws.amazon.com/serverless-application-model/latest/developerguide/install-sam-cli.html)).
+1. **Install AWS CLI**
+    - Download and install the AWS CLI from [AWS CLI Installation Guide](https://docs.aws.amazon.com/cli/latest/userguide/install-cliv2.html).
+    - Configure the AWS CLI with your credentials:
+      ```bash
+      aws configure
+      ```
+      Provide:
+        - AWS Access Key ID.
+        - AWS Secret Access Key.
+        - Default region (e.g., `us-east-1`).
+
+2. **Install AWS SAM CLI**
+    - Download and install the AWS SAM CLI from [SAM CLI Installation Guide](https://docs.aws.amazon.com/serverless-application-model/latest/developerguide/install-sam-cli.html).
+
+3. **Install Node.js and npm**
+    - Download Node.js from [Node.js Official Site](https://nodejs.org/).
+    - Verify installation:
+      ```bash
+      node -v
+      npm -v
+      ```
+      
 
 ### Steps
 
